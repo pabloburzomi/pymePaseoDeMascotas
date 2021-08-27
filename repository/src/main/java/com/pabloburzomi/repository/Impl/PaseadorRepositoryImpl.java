@@ -35,8 +35,10 @@ public class PaseadorRepositoryImpl extends HibernateBaseRepository implements P
 			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 		} 
 
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return paseador;
-		}
 	}
 
 	@Override
@@ -66,8 +68,10 @@ public class PaseadorRepositoryImpl extends HibernateBaseRepository implements P
 				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 		} 
 		
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return paseadores;
-		}
 		
 	}
 
@@ -104,8 +108,10 @@ public class PaseadorRepositoryImpl extends HibernateBaseRepository implements P
 				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 		} 
 
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return paseador;
-		}
 	}
 
 }

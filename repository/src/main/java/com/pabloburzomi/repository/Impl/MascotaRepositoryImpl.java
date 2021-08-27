@@ -40,8 +40,10 @@ public class MascotaRepositoryImpl extends HibernateBaseRepository implements Ma
 				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 		} 
 
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return mascota;
-		}
 	}
 
 	@Override
@@ -72,8 +74,10 @@ public class MascotaRepositoryImpl extends HibernateBaseRepository implements Ma
 		}
 
 
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return mascotas;
-		}
 	}
 
 	@Override
@@ -110,8 +114,10 @@ public class MascotaRepositoryImpl extends HibernateBaseRepository implements Ma
 			
 		} 
 
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		return mascota;
-		}
 	}
 
 }

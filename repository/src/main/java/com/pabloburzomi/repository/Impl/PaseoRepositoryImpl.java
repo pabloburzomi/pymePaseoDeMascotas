@@ -42,8 +42,10 @@ public class PaseoRepositoryImpl extends HibernateBaseRepository implements Pase
 		} 
 
 
-			return paseo;
-		}
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
+		return paseo;
 	}
 
 	@Override
@@ -75,10 +77,12 @@ public class PaseoRepositoryImpl extends HibernateBaseRepository implements Pase
 				throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
 			} 	
 		
-		System.out.println(paseos);
-		return paseos;
-		}
+	
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}
 		
+		return paseos;
 	}
 
 }

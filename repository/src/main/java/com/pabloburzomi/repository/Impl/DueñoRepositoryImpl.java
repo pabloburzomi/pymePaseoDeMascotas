@@ -40,6 +40,8 @@ public class DueñoRepositoryImpl extends HibernateBaseRepository implements Due
 				throw new Exception("Causa: " + ex.getCause() + "Mensaje: " + ex.getMessage());
 			}
 				
+		} catch(Exception e){
+		 throw new Exception(e.getMessage());	
 		}
 		
 		return dueño;
@@ -74,7 +76,9 @@ public class DueñoRepositoryImpl extends HibernateBaseRepository implements Due
 				throw new Exception("Causa: " + ex.getCause() + "Mensaje: " + ex.getMessage());
 			}
 		
-		} 
+		}  catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			} 
 		
 		
 		return dueños;
@@ -115,8 +119,10 @@ public class DueñoRepositoryImpl extends HibernateBaseRepository implements Due
 				throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
 		} 
 		
+		} catch(Exception e){
+			 throw new Exception(e.getMessage());	
+			}	
 		return dueño;
-		}	
 
 	}
 }
