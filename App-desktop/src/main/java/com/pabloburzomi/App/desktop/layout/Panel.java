@@ -11,7 +11,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -248,7 +247,7 @@ public class Panel extends JFrame {
 		spinner.setEditor(spinner_1);
 
 		SimpleDateFormat formater = new SimpleDateFormat("HH:mm");
-		String spinnerValue = formater.format(spinner.getValue());
+		formater.format(spinner.getValue());
 		
 
 		JButton btnGuardarPaseos = new JButton("Guardar");

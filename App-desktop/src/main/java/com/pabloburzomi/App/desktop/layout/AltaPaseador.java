@@ -15,10 +15,14 @@ import javax.swing.border.EmptyBorder;
 import com.pabloburzomi.domain.Paseador;
 import com.pabloburzomi.services.PaseadorServices;
 import com.pabloburzomi.services.impl.PaseadorServicesImpl;
-import java.awt.Window.Type;
 
 public class AltaPaseador extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombrePaseador;
 	private JTextField txtDniPaseador;

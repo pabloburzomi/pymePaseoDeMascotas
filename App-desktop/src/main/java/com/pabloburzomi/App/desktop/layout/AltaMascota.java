@@ -25,6 +25,11 @@ import com.pabloburzomi.services.impl.MascotaServicesImpl;
 
 public class AltaMascota extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombreMascota;
 	private JTextField txtRaza;
@@ -94,7 +99,7 @@ public class AltaMascota extends JDialog {
 		contentPanel.add(txtCantPaseos);
 		txtCantPaseos.setColumns(10);
 		
-		JComboBox cmbClientes = new JComboBox();
+		JComboBox<Object> cmbClientes = new JComboBox<>();
 		cmbClientes.setEditable(true);
 		cmbClientes.setMaximumRowCount(10);
 		cmbClientes.setBounds(152, 285, 519, 22);
