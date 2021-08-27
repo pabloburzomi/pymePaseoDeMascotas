@@ -22,99 +22,96 @@ public class MascotaRepositoryImpl extends HibernateBaseRepository implements Ma
 	@Override
 	public Mascota insert(Mascota mascota) throws Exception {
 		
-		Session session = factory.getCurrentSession();
 		
-		try{
+		
+		try(Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
+			try {
+				
+				session.getTransaction().begin();
+				
+				session.saveOrUpdate(mascota);
+				
+				session.getTransaction().commit();
+				
+			} catch(Exception e) {
 			
-			session.saveOrUpdate(mascota);
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
-			
-			session.getTransaction().rollback();
-			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
-
-
+				session.getTransaction().rollback();
+				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
+		} 
 
 		return mascota;
+		}
 	}
 
 	@Override
 	public List<Mascota> getMascotaById(Dueño idCliente) throws Exception{
 
-		Session session = factory.getCurrentSession();
+		
 
 		List<Mascota> mascotas = new ArrayList<>();
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
-			
-			String sql = "Select e from " + Mascota.class.getName() + " e where e.idcliente like :idCliente";
-			
-			Query<Mascota> query = session.createQuery(sql);
-			
-			query.setParameter("idCliente", idCliente);
-			
-			mascotas = query.getResultList();
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
-			session.getTransaction().rollback();
-			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
+			try {
+				
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Mascota.class.getName() + " e where e.idcliente like :idCliente";
+				
+				Query<Mascota> query = session.createQuery(sql);
+				
+				query.setParameter("idCliente", idCliente);
+				
+				mascotas = query.getResultList();
+				
+				session.getTransaction().commit();
+			} catch(Exception e) {
+				session.getTransaction().rollback();
+				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 		}
 
 
 		return mascotas;
+		}
 	}
 
 	@Override
 	public Mascota getIdMascotaByNombre(String nombre) throws Exception {
 		
-		Session session = factory.getCurrentSession();
+		
 
 		Mascota mascota = null;
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
-			
-			String sql = "Select e from " + Mascota.class.getName() + " e where e.nombre like :nombre";
-			
-			Query<Mascota> query = session.createQuery(sql);
-			
-			query.setParameter("nombre", nombre);
-			
-			Optional<Mascota> employees = query.uniqueResultOptional();
-			
-			if (employees.isPresent()) {
+			try {
 				
-				mascota = employees.get();
-			}
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Mascota.class.getName() + " e where e.nombre like :nombre";
+				
+				Query<Mascota> query = session.createQuery(sql);
+				
+				query.setParameter("nombre", nombre);
+				
+				Optional<Mascota> employees = query.uniqueResultOptional();
+				
+				if (employees.isPresent()) {
+					
+					mascota = employees.get();
+				}
+				
+				session.getTransaction().commit();
+			} catch(Exception e) {
 			
 			session.getTransaction().rollback();
 			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
 			
-		} finally {
-			
-			session.close();
-		}
-
-
+		} 
 
 		return mascota;
+		}
 	}
 
 }

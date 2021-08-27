@@ -18,59 +18,56 @@ public class PaseadorRepositoryImpl extends HibernateBaseRepository implements P
 	@Override
 	public Paseador insert(Paseador paseador) throws Exception{
 
-		Session session = factory.getCurrentSession();
 		
-		try {
+		
+		try(Session session = factory.getCurrentSession()) {
 			
-			session.getTransaction().begin();
-			
-			session.saveOrUpdate(paseador);
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
+			try {
+				
+				session.getTransaction().begin();
+				
+				session.saveOrUpdate(paseador);
+				
+				session.getTransaction().commit();
+			} catch(Exception e) {
 			
 			session.getTransaction().rollback();
 			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
-
+		} 
 
 		return paseador;
+		}
 	}
 
 	@Override
 	public List<Paseador> getAllPaseadores() throws Exception {
 		
-		Session session = factory.getCurrentSession();
+		
 		
 		List<Paseador> paseadores = new ArrayList<>();
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
+			try {
+				
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Paseador.class.getName() + " e ";
+				
+				Query<Paseador> query = session.createQuery(sql);
+				
+				paseadores = query.getResultList();
+				
+				
+				session.getTransaction().commit();
+			} catch(Exception e) {
 			
-			String sql = "Select e from " + Paseador.class.getName() + " e ";
-			
-			Query<Paseador> query = session.createQuery(sql);
-			
-			paseadores = query.getResultList();
-			
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
-			
-			session.getTransaction().rollback();
-			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
-		
-		
+				session.getTransaction().rollback();
+				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
+		} 
 		
 		return paseadores;
+		}
 		
 	}
 
@@ -78,39 +75,37 @@ public class PaseadorRepositoryImpl extends HibernateBaseRepository implements P
 	public Paseador getIdPaseadorByNombre(String nombrePaseador) throws Exception {
 		
 		
-		Session session = factory.getCurrentSession();
+		
 
 		Paseador paseador = null;
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
-			
-			String sql = "Select e from " + Paseador.class.getName() + " e where e.nombre like :nombrePaseador";
-			
-			Query<Paseador> query = session.createQuery(sql);
-			
-			query.setParameter("nombrePaseador", nombrePaseador);
-			
-			Optional<Paseador> employees = query.uniqueResultOptional();
-			
-			if (employees.isPresent()) {
+			try {
 				
-				paseador = employees.get();
-			}
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
-			session.getTransaction().rollback();
-			throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
-
-
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Paseador.class.getName() + " e where e.nombre like :nombrePaseador";
+				
+				Query<Paseador> query = session.createQuery(sql);
+				
+				query.setParameter("nombrePaseador", nombrePaseador);
+				
+				Optional<Paseador> employees = query.uniqueResultOptional();
+				
+				if (employees.isPresent()) {
+					
+					paseador = employees.get();
+				}
+				
+				session.getTransaction().commit();
+			} catch(Exception e) {
+				session.getTransaction().rollback();
+				throw new Exception("La causa del error fue: "+e.getCause()+ " Mensaje: " + e.getMessage());
+		} 
 
 		return paseador;
+		}
 	}
 
 }

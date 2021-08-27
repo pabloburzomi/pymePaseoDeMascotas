@@ -22,61 +22,62 @@ public class PaseoRepositoryImpl extends HibernateBaseRepository implements Pase
 	@Override
 	public Paseo insertPaseo(Paseo paseo) throws Exception{
 
-		Session session = factory.getCurrentSession();
 		
-		try {
+		
+		try(Session session = factory.getCurrentSession()) {
 			
-			session.getTransaction().begin();
-			
-			session.saveOrUpdate(paseo);
-			
-			session.getTransaction().commit();
-		} catch(Exception e) {
+			try {
+				
+				session.getTransaction().begin();
+				
+				session.saveOrUpdate(paseo);
+				
+				session.getTransaction().commit();
+				
+			} catch(Exception e) {
+				
 			session.getTransaction().rollback();
 			
 			throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
+		} 
+
+
+			return paseo;
 		}
-
-
-
-		return paseo;
 	}
 
 	@Override
 	public List<Paseo> getAll() throws Exception {
 		
-		Session session = factory.getCurrentSession();
+		
 		
 		List<Paseo> paseos = new ArrayList<>();
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
-			session.getTransaction().begin();
-			
-			String sql = "Select e from " + Paseo.class.getName() + " e ";
-			
-			Query<Paseo> query = session.createQuery(sql);
-			
-			paseos = query.getResultList();
-			
-			
-			session.getTransaction().commit();
-		} catch( Exception e) {
-			session.getTransaction().rollback();
-			
-			throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
-		
-		
+			try {
+				
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Paseo.class.getName() + " e ";
+				
+				Query<Paseo> query = session.createQuery(sql);
+				
+				paseos = query.getResultList();
+				
+				
+				session.getTransaction().commit();
+				
+			} catch( Exception e) {
+				
+				session.getTransaction().rollback();
+				
+				throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
+			} 	
 		
 		System.out.println(paseos);
 		return paseos;
+		}
 		
 	}
 

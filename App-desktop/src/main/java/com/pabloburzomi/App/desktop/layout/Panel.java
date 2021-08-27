@@ -33,11 +33,13 @@ import com.pabloburzomi.services.impl.MascotaServicesImpl;
 import com.pabloburzomi.services.impl.PaseadorServicesImpl;
 import com.pabloburzomi.services.impl.PaseoServicesImpl;
 import com.toedter.calendar.JCalendar;
-import java.awt.Component;
 import javax.swing.JSeparator;
 
 public class Panel extends JFrame {
 
+
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTextField txtBuscarCliente;
 	private JTextField txtAfiliadoEncontrado;
@@ -83,7 +85,7 @@ public class Panel extends JFrame {
 		lblNewLabel_1.setBounds(50, 165, 165, 14);
 		contentPane.add(lblNewLabel_1);
 
-		JComboBox cmbMascota = new JComboBox();
+		JComboBox <Object>cmbMascota = new JComboBox<>();
 		cmbMascota.setBounds(50, 203, 251, 22);
 		contentPane.add(cmbMascota);
 
@@ -155,7 +157,6 @@ public class Panel extends JFrame {
 					
 					listaMascotas.forEach(System.out::println);
 					
-//					listaMascotas.stream().map(x->x.getNombre()).forEach(System.out::println);  Esto era porque queria enviarle al metodo buscarMascotas el (int) id del cliente y lo mejor era enviarle el objeto cliente
 					
 					listaMascotas.stream().map(x -> x.getNombre()).forEach(cmbMascota::addItem);
 					
@@ -183,7 +184,7 @@ public class Panel extends JFrame {
 		lblNewLabel_3.setBounds(34, 456, 165, 20);
 		contentPane.add(lblNewLabel_3);
 
-		JComboBox cmbPaseadores = new JComboBox();
+		JComboBox <Object> cmbPaseadores = new JComboBox<>();
 		cmbPaseadores.setBounds(209, 455, 217, 22);
 		contentPane.add(cmbPaseadores);
 
@@ -263,7 +264,7 @@ public class Panel extends JFrame {
 				Mascota idMascota = new Mascota();
 				
 
-				Date date = new Date();
+				//Date date = new Date();
 				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 				String fecha = f.format(calendar.getDate());
 
@@ -322,14 +323,14 @@ public class Panel extends JFrame {
 		separator.setBounds(34, 623, 667, 2);
 		contentPane.add(separator);
 		
-		JComboBox cmbPaseos = new JComboBox();
+		JComboBox<Object> cmbPaseos = new JComboBox<>();
 		cmbPaseos.setBounds(34, 656, 667, 22);
 		contentPane.add(cmbPaseos);
 		
 		JButton btnPaseos = new JButton("Mostrar Paseos");
 		btnPaseos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("hoalaaaaa");
+			
 				PaseoServices ps = new PaseoServicesImpl();
 				List<Paseo> todosPaseos = new ArrayList<>();
 				
@@ -340,7 +341,6 @@ public class Panel extends JFrame {
 					e1.printStackTrace();
 				}
 				
-				todosPaseos.forEach(System.out::println);
 				
 				todosPaseos.forEach(cmbPaseos::addItem);
 				

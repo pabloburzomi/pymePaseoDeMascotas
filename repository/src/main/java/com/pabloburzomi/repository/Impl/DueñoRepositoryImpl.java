@@ -13,6 +13,7 @@ import com.pabloburzomi.repository.hibernate.HibernateBaseRepository;
 
 public class DueñoRepositoryImpl extends HibernateBaseRepository implements DueñoRepository {
 	
+	
 	public DueñoRepositoryImpl() {
 		super();
 	}
@@ -20,61 +21,60 @@ public class DueñoRepositoryImpl extends HibernateBaseRepository implements Due
 	@Override
 	public Dueño insert(Dueño dueño) throws Exception  {
 		
-		Session session = factory.getCurrentSession();
 		
-		try {
+		
+		try (Session session = factory.getCurrentSession()){
 			
+			try {
 		
-		session.getTransaction().begin();
-		
-		session.saveOrUpdate(dueño);
-		
-		session.getTransaction().commit();
-		
-		}catch(Exception e){
-		
-		session.getTransaction().rollback();
-		
-		throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
-		
-		} finally {
-			
-			session.close();
+				session.getTransaction().begin();
+				
+				session.saveOrUpdate(dueño);
+				
+				session.getTransaction().commit();
+				
+			} catch (Exception ex) {
+				
+				session.getTransaction().rollback();
+				
+				throw new Exception("Causa: " + ex.getCause() + "Mensaje: " + ex.getMessage());
+			}
+				
 		}
 		
-		
 		return dueño;
+		
 	}
 
 	@Override
 	public List<Dueño> findAll() throws Exception {
 		
-		Session session = factory.getCurrentSession();
+		
 		
 		List<Dueño> dueños = new ArrayList<Dueño>();
 		
-		try {
+		try (Session session = factory.getCurrentSession()){
 			
+			try {
+				
+				session.getTransaction().begin();
+				
+				String sql = "Select e from " + Dueño.class.getName() + " e ";
+				
+				Query<Dueño> query = session.createQuery(sql);
+				
+				dueños = query.getResultList();
+				
+				
+				session.getTransaction().commit();
+				
+			} catch(Exception ex) {
+				
+				session.getTransaction().rollback();
+				throw new Exception("Causa: " + ex.getCause() + "Mensaje: " + ex.getMessage());
+			}
 		
-		session.getTransaction().begin();
-		
-		String sql = "Select e from " + Dueño.class.getName() + " e ";
-		
-		Query<Dueño> query = session.createQuery(sql);
-		
-		dueños = query.getResultList();
-	
-		
-		session.getTransaction().commit();
-		
-		} catch(Exception e) {
-			
-			session.getTransaction().rollback();
-			throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
+		} 
 		
 		
 		return dueños;
@@ -84,39 +84,39 @@ public class DueñoRepositoryImpl extends HibernateBaseRepository implements Due
 	@Override
 	public Dueño getByName(String nombre) throws Exception {
 		
-		Session session = factory.getCurrentSession();
+		
 
 		Dueño dueño = null;
 		
-		try {
+		try (Session session = factory.getCurrentSession()) {
 			
-		
-		session.getTransaction().begin();
-
-		// Create an HQL statement, query the object.
-		String sql = "Select dueño from " + Dueño.class.getName() + " dueño where dueño.nombre =:nombre";
-		
-		Query<Dueño> query = session.createQuery(sql);
-
-		query.setParameter("nombre", nombre);
-		
-		Optional<Dueño> employees = query.uniqueResultOptional();
-
-		if (employees.isPresent()) {
-			dueño = employees.get();
-		}
-		
-		session.getTransaction().commit();
-		
-		} catch(Exception e) {
-			session.getTransaction().rollback();
-			throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
-		} finally {
-			
-			session.close();
-		}
+			try {
+				
+				session.getTransaction().begin();
+				
+				// Create an HQL statement, query the object.
+				String sql = "Select dueño from " + Dueño.class.getName() + " dueño where dueño.nombre =:nombre";
+				
+				Query<Dueño> query = session.createQuery(sql);
+				
+				query.setParameter("nombre", nombre);
+				
+				Optional<Dueño> employees = query.uniqueResultOptional();
+				
+				if (employees.isPresent()) {
+					dueño = employees.get();
+				}
+				
+				session.getTransaction().commit();
+				
+				
+			} catch(Exception e) {
+				session.getTransaction().rollback();
+				throw new Exception("Causa: " + e.getCause() + "Mensaje: " + e.getMessage());
+		} 
 		
 		return dueño;
-	}	
+		}	
 
+	}
 }
